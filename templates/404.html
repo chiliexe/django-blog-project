@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block 'title' %}
+    Page Not Found
+{% endblock %}
+
+{% block 'content' %}
+    <div class="container">
+
+        <h3 class="text-center">Erro ao encontrar a pagina</h3>
+
+        <a href="{% url 'home:index' %}" class="btn btn-info">Volvar a pagina inicial</a>
+    </div>
+{% endblock %}

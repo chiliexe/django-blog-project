@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}
+    Faça Login e aproveite nosso conteudo
+{% endblock %}
+
+{% block 'content' %}
+
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="text-center mt-4">Faça seu login</h4>
+
+                <hr>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+                    <button type="submit" class="btn btn-primary">Entar</button>
+                    <span class="float-right">Ainda não tem uma conta?
+                        <a href="{% url 'account_signup' %}">Cadastre-se</a>
+                    </span>
+                </form>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

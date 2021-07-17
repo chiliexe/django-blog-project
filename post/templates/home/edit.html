@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}
+    Editar dados do post
+{% endblock %}
+
+{% block 'content' %}
+
+    <div class="container">
+
+        <h4 class="text-center mt-4">Atualizar Postagem - edite tudo agora</h4>
+
+        <hr>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form|crispy }}
+
+            <hr>
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <button type="submit" class="btn btn-danger">Voltar</button>
+        </form>
+
+    </div>
+
+{% endblock %}

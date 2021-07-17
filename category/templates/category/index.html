@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block 'title' %}
+    Blog Django - Página inicial
+{% endblock %}
+
+{% block 'content' %}
+    {% if request.user.is_authenticated %}
+        <a class="btn btn-primary mt-4 ml-4" href="{% url 'home:create' %}">Novo Post</a>
+    {% endif %}
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!-- CONTENT -->
+                <h3 class="text-center mt-2">Postagens da categoria: {{ posts.first.category}}</h3>
+                <hr>
+                <div class="card-columns mt-4">
+                    <!-- FOR LOOP -->
+                    {% if not posts %}
+                        <h5 class="text-center mt-2">Não existe postagens para esta categoria</h5>
+                    {% endif %}
+                    {% for post in posts %}
+                        <div class="card">
+
+                            <a href="{{ post.get_absolute_url }}">
+                                <img class="card-img-top"
+                                     src="{{ post.image.url }}"
+                                     alt="Card image cap">
+                            </a>
+
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ post.get_absolute_url }}">
+                                        {{ post.title|title }}
+                                    </a>
+                                </h5>
+                                <p class="card-text">{{ post.summary }} ...</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        {{ post.updated_at|naturalday }} |
+                                        {{ post.num_comments }} |
+                                        {{ post.category|title }}
+                                    </small>
+                                </p>
+
+                                <div class="text-right">
+                                    <a href="{{ post.get_absolute_url }}" class="btn btn-outline-secondary">Ler mais...</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <!--/FOR LOOP-->
+                </div>
+                <!--/CONTENT-->
+
+
+                <!-- _pagination.html -->
+                <div class="pagination">
+                    <ul class="pagination">
+
+                         {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"> Anterior </a>
+                            </li>
+                         {% endif %}
+
+
+                        {% for page in page_obj.paginator.page_range %}
+                            {% if page_obj.number == page %}
+                                <li class="page-item active">
+                                  <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                  <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+
+                        {% endfor %}
+
+
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}"> Próximo </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- _pagination.html -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

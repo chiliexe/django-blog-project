@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+{% block 'title' %}
+    {{ post.title }}
+{% endblock %}
+
+{% block 'content' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+
+                <!-- POST -->
+                <div class="container">
+                    <div class="row pt-5">
+                        <div class="col-xl"></div>
+                        <div class="col-xl-8 text-center">
+                            <h2>{{ post.title|title }}</h2>
+                            <h5>{{ post.summary }} ...</h5>
+                            <p class="text-muted mt-4">
+                                <small>
+                                    {{ post.user.username }} |
+                                    Criado: {{ post.created_at }} |
+                                    Atualizado: {{ post.updated_at }} |
+                                    {{ post.category|title }}
+                                </small>
+                            </p>
+                        </div>
+                        <div class="col-xl"></div>
+                    </div>
+
+                    <div class="row pt-5">
+                        <div class="col-xl"></div>
+                        <div class="col-xl-8">
+
+                            <img class="img-fluid pb-5 " src="{{ post.image.url }}" alt="">
+
+                            {{ post.content|safe }}
+                        </div>
+                        <div class="col-xl"></div>
+                    </div>
+
+
+
+
+                    <div class="row pt-5">
+                        <div class="col-xl"></div>
+                        <div class="col-xl-8">
+                            <h2 class="my-3">Deixe um comentário</h2>
+
+                            <form method="POST" action="{% url 'comment:create' post.slug %}">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+
+
+                        </div>
+                        <div class="col-xl"></div>
+
+
+                    </div>
+
+                    <div class="row pt-5">
+                        <div class="col-xl"></div>
+                        <div class="col-xl-8">
+                            <h2 class="my-3">Comentários ({{ post.num_comments }})</h2>
+
+
+
+                            {% for comment in comments %}
+                                <h5 class="mb-2 mt-5">{{ comment.name|title }} disse:</h5>
+                                <small class="text-muted">ontem</small>
+                                <p class="mb-1"> {{ comment.content }} </p>
+
+                            {% endfor %}
+
+
+
+
+                        </div>
+                        <div class="col-xl"></div>
+                    </div>
+                </div>
+                <!-- POST -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
